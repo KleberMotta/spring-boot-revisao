@@ -2,9 +2,7 @@ package com.shoppingvirtual.controller;
 
 import com.shoppingvirtual.dto.UserDTO;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -62,6 +60,24 @@ public class UserController {
             }
         }
         return null;
+    }
+
+    @PostMapping("/newUser")
+    UserDTO inserir(@RequestBody UserDTO userDTO) {
+        userDTO.setDataCadastro(new Date());
+        usuarios.add(userDTO);
+        return userDTO;
+    }
+
+    @DeleteMapping("/removeUser/{cpf}")
+    public boolean remover(@PathVariable String cpf) {
+        for (UserDTO userFilter: usuarios) {
+            if (userFilter.getCpf().equals(cpf)) {
+                usuarios.remove(userFilter);
+                return true;
+            }
+        }
+        return false;
     }
 
 }
